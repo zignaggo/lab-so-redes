@@ -4,15 +4,10 @@ ip link set eth0 up
 ip addr add 192.168.11.2/24 dev eth1
 ip link set eth1 up
 
-cat <<EOF > /etc/dnsmasq.conf
-interface=eth0
-dhcp-range=192.168.3.2,192.168.3.254,12h
-dhcp-option=3,192.168.3.1   # gateway
-dhcp-option=6,8.8.8.8       # DNS
-EOF
-
 systemctl restart dnsmasq
 
 ip route add 192.168.1.0/24  via 192.168.11.1
 ip route add 192.168.2.0/24  via 192.168.11.1
 ip route add 192.168.10.0/24 via 192.168.11.1
+
+ip route add default via 192.168.11.1
